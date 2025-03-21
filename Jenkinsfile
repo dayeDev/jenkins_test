@@ -1,9 +1,10 @@
 pipeline {
     agent any
-
-    environment {
-        VENV_DIR = "${WORKSPACE}/venv"
-    }
+    
+    // 가상환경 안씀
+    // environment {
+    //     VENV_DIR = "${WORKSPACE}/venv"
+    // }
 
     stages {
         stage('Clone Repository') {
