@@ -2,19 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-                git credentialsId: 'git', url: 'https://github.com/dayeDev/jenkins_test.git', branch: 'main'
+                git credentialsId: 'git', url: 'https://github.com/dayeDev/jenkins_test.git'
             }
         }
+
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m venv venv'
+                sh './venv/bin/pip install --upgrade pip'
+                sh './venv/bin/pip install -r requirements.txt'
             }
         }
+
         stage('Run Tests') {
             steps {
-                sh 'pytest --maxfail=1 --disable-warnings -q'
+                sh './venv/bin/pytest tests'
             }
         }
     }
