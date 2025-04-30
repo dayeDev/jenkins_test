@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = '/usr/bin/python3'  // 실제 경로로 바꿔줘요.
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +14,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m venv venv'
+                sh "${PYTHON} -m venv venv"
                 sh './venv/bin/pip install --upgrade pip'
                 sh './venv/bin/pip install -r requirements.txt'
             }
