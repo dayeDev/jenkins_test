@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        PIP = '/usr/bin/pip3'
-        PYTHON = '/usr/bin/python3'  // 실제 경로로 바꿔줘요.
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,13 +10,20 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh "${PIP} install -r requirements.txt"
+                sh '''
+                    export PATH="/usr/bin:$PATH"
+                    /usr/bin/pip3 install --upgrade pip
+                    /usr/bin/pip3 install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh "${PYTHON} -m pytest tests"
+                sh '''
+                    export PATH="/usr/bin:$PATH"
+                    /usr/bin/python3 -m pytest tests
+                '''
             }
         }
     }
