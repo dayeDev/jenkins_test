@@ -26,7 +26,8 @@ pipeline {
                 sh '''
                     export PATH="/usr/bin:$PATH"
                     mkdir -p reports  # XML 결과 파일 저장 디렉토리
-                    /usr/bin/python3 -m pytest tests --junitxml=reports/results.xml
+                    /usr/bin/python3 -m pytest tests \
+                      --html=report.html --self-contained-html
                 '''
             }
         }
@@ -38,13 +39,11 @@ pipeline {
             junit 'reports/results.xml'
 
              // HTML 리포트 보이기 설정
-            publishHTML([
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'reports',
-                reportFiles: 'report.html',
-                reportName: 'Pytest HTML Report'
+            publishHTML([ 
+                reportDir: '.', 
+                reportFiles: 'report.html', 
+                reportName: 'Pytest HTML Report', 
+                keepAll: true 
             ])
         }
     }
