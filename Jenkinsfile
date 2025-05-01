@@ -36,6 +36,16 @@ pipeline {
         always {
             // 테스트가 성공/실패와 상관없이 결과 리포트를 수집
             junit 'reports/results.xml'
+
+             // HTML 리포트 보이기 설정
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'report.html',
+                reportName: 'Pytest HTML Report'
+            ])
         }
     }
 }
